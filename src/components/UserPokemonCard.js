@@ -7,7 +7,6 @@ const UserPokemonCard = ({ pokemon, releasePokemon }) => {
   const firstLetter = pokemon.name.charAt(0).toUpperCase();
   const splitStr = pokemon.name.slice(1);
   const name = firstLetter + splitStr;
-  console.log(pokemon);
   return (
     <Container>
       <Image src={pokemon.image} />

@@ -9,23 +9,9 @@ import PokemonCard from "../components/PokemonCard";
 
 const PokemonList = () => {
   const { pokemons } = useContext(PokemonContext);
-  // const [pokemons, setPokemons] = useState([]);
-  // const LIMIT = 30;
-  // const { loading, data } = useQuery(GET_POKEMONS, {
-  //   variables: { limit: LIMIT },
-  // });
-
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log(data.pokemons.results);
-  //     setPokemons(data.pokemons.results);
-  //   }
-  // }, [data, loading]);
-  console.log(pokemons);
   return (
     <Container>
       <Content>
-        {/* {loading ? <Skeleton width={"100%"} height={85} count={LIMIT} /> : null} */}
         {pokemons &&
           pokemons.map((pokemon) => (
             <PokemonCard pokemon={pokemon} key={pokemon.id} />
