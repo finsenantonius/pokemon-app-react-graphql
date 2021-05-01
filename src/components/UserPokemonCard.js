@@ -1,25 +1,25 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const PokemonCard = ({ pokemon }) => {
+const UserPokemonCard = ({ pokemon, releasePokemon }) => {
   const firstLetter = pokemon.name.charAt(0).toUpperCase();
   const splitStr = pokemon.name.slice(1);
   const name = firstLetter + splitStr;
-
+  console.log(pokemon);
   return (
-    <Link to={`/detail/${pokemon.name}`}>
-      <Container>
-        <Image src={pokemon.image} />
-        <NameContainer>
-          <Name>{name}</Name>
-          <PokemonCount>owned: {pokemon.ownedTotal}</PokemonCount>
-        </NameContainer>
-        <FontAwesomeIcon icon={faChevronRight} />
-      </Container>
-    </Link>
+    <Container>
+      <Image src={pokemon.image} />
+      <NameContainer>
+        <Name>{name}</Name>
+        <Nickname>nickname: {pokemon.nickname}</Nickname>
+      </NameContainer>
+      <FontAwesomeIcon
+        onClick={() => releasePokemon(pokemon.nickname, pokemon.name)}
+        icon={faTimes}
+      />
+    </Container>
   );
 };
 
@@ -31,7 +31,6 @@ const Container = styled.div({
   marginBottom: 20,
   boxShadow: "2px 2px 8px rgba(111, 111, 111, 0.2)",
   padding: "12px",
-  cursor: "pointer",
 });
 
 const NameContainer = styled.div({
@@ -48,13 +47,12 @@ const Image = styled.img({
 
 const Name = styled.label({
   fontWeight: "bold",
-  marginRight: "auto",
 });
 
-const PokemonCount = styled.label({
+const Nickname = styled.label({
   marginRight: "auto",
   fontSize: 12,
   color: "#636c72",
 });
 
-export default PokemonCard;
+export default UserPokemonCard;

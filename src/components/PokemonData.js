@@ -1,14 +1,47 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "@emotion/styled";
 import TypesTag from "../components/TypesTag";
 import PokemonStats from "../components/PokemonStats";
+import PokemonInput from "../components/PokemonInput";
+import { PokemonContext } from "../context/PokemonContext";
 
-const PokemonData = ({ pokemon }) => {
+const PokemonData = ({ pokemon, userPokemon, setUserPokemon }) => {
+  const { countPokemonOwned } = useContext(PokemonContext);
+  const [open, setOpen] = useState(null);
+  const [alert, setAlert] = useState(false);
+  const [nickname, setNickname] = useState();
+
   const pokemonMoves = pokemon.moves.slice(0, 5);
   const firstLetter = pokemon.name.charAt(0).toUpperCase();
   const splitStr = pokemon.name.slice(1);
   const name = firstLetter + splitStr;
 
+  const catchPokemon = () => {
+    let chance = Math.random() < 0.5;
+    if (chance === true) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  };
+
+  const submitPokemon = () => {
+    if (userPokemon.some((pokemon) => pokemon.nickname === nickname)) {
+      setAlert(true);
+    } else {
+      const data = {
+        nickname: nickname,
+        name: pokemon.name,
+        image: pokemon.sprites.front_default,
+      };
+      setAlert(false);
+      setOpen(null);
+      setUserPokemon((userPokemon) => [...userPokemon, data]);
+      countPokemonOwned(pokemon.name, "add");
+    }
+  };
+
+  localStorage.setItem("_user_pokemon", JSON.stringify(userPokemon));
   return (
     <>
       <SegmentData>
@@ -31,7 +64,16 @@ const PokemonData = ({ pokemon }) => {
           );
         })}
       </MovesData>
-      <Button>Catch</Button>
+      {!open ? <Button onClick={catchPokemon}>Catch</Button> : null}
+      {open ? (
+        <PokemonInput
+          setNickname={setNickname}
+          submitPokemon={submitPokemon}
+          alert={alert}
+        />
+      ) : open === false ? (
+        <p>Failed to catch pokemon, please try again.</p>
+      ) : null}
     </>
   );
 };
@@ -77,6 +119,7 @@ const Button = styled.button({
   fontFamily: "Poppins",
   fontSize: 16,
   fontWeight: "bold",
+  marginBottom: 12,
 });
 
 export default PokemonData;

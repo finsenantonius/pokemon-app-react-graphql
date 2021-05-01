@@ -9,7 +9,9 @@ const Header = () => {
       <Link to="/">
         <h3>Pokemon</h3>
       </Link>
-      <Icon src={icon} alt="pokeball" />
+      <Link to="/my-pokemon">
+        <Icon src={icon} alt="pokeball" />
+      </Link>
     </Nav>
   );
 };
@@ -30,6 +32,7 @@ const Nav = styled.nav({
 const Icon = styled.img({
   width: 22,
   height: 22,
+  marginTop: 4,
 });
 
 export default Header;

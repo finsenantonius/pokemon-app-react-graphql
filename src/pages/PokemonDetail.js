@@ -8,6 +8,7 @@ import SkeletonPokemonData from "../components/SkeletonPokemonData";
 
 const PokemonDetail = () => {
   const [pokemon, setPokemon] = useState();
+  const [userPokemon, setUserPokemon] = useState([]);
   const location = useLocation();
   const pageURL = location.pathname;
   const latURLSegment = pageURL.substr(pageURL.lastIndexOf("/") + 1).toString();
@@ -17,16 +18,25 @@ const PokemonDetail = () => {
   });
 
   useEffect(() => {
+    const localData = localStorage.getItem("_user_pokemon");
+    setUserPokemon(localData ? JSON.parse(localData) : []);
     if (data) {
       setPokemon(data.pokemon);
-      console.log(data.pokemon);
     }
   }, [data]);
 
   return (
     <Container>
       <Content>
-        {pokemon ? <PokemonData pokemon={pokemon} /> : <SkeletonPokemonData />}
+        {pokemon ? (
+          <PokemonData
+            pokemon={pokemon}
+            userPokemon={userPokemon}
+            setUserPokemon={setUserPokemon}
+          />
+        ) : (
+          <SkeletonPokemonData />
+        )}
       </Content>
     </Container>
   );
